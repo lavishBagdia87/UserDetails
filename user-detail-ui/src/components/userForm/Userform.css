@@ -1,0 +1,17 @@
+.form-container{
+    max-width: 40vw;
+    margin: 5vh 15vw;
+    
+}
+.form-container .title-message{
+    margin-bottom:8px;
+
+}
+.form-container .hide{
+    display: none;
+}
+.form-container .show{
+    display: block;
+    margin-bottom:2vh;
+
+}

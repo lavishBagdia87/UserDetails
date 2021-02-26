@@ -10,9 +10,9 @@ export function connectToServer(action,url,methodType,param){
     return (dispatch) =>{
         dispatch(isLoading(true))
         if(methodType === 'get'){
-            getServiceCall(dispatch,action,url,param)
+            getServiceCall(dispatch,action,process.env.API_URL+url,param)
         }else if (methodType === 'post'){
-            postServiceCall(dispatch,action,url,param)
+            postServiceCall(dispatch,action,process.env.API_URL+url,param)
         }else{
             dispatch(isLoading(false));   
         }
@@ -27,13 +27,12 @@ const getAxios= ()=>{
             'Content-Type':'application/json'
         }
     });
-
 }
 const getServiceCall = (dispatch,action,url)=>{
     getAxios().get(url).then((resp)=>{
         dispatch(isLoading(false));
         if(resp.status === 200){
-            dispatch(setDataAction(action,response.data))
+            dispatch(setDataAction(action,resp.data))
         }
     }).catch((e)=>{
         dispatch(isLoading(false));
@@ -44,8 +43,8 @@ const getServiceCall = (dispatch,action,url)=>{
 const postServiceCall = (dispatch,action,url,param)=>{
     getAxios().post(url,param).then((resp)=>{
         dispatch(isLoading(false));
-        if(resp.status === 200){
-            dispatch(setDataAction(action,response.data))
+        if(resp.status === 201){
+            dispatch(setDataAction(action,resp.data))
         }
     })
 }
@@ -56,3 +55,9 @@ const setDataAction = (action,data) =>{
         data:data?data:null 
     }
 } 
+const isLoading = (status)=>{
+    return {
+        type:actions.LOADING,
+        data:status
+    }
+}
